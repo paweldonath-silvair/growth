@@ -1,0 +1,14 @@
+[
+  {
+    "country": "Poland",
+    "cities": ["Warsaw", "Cracow", "Wroclaw", "Gdansk"]
+  },
+  {
+    "country": "Spain",
+    "cities": ["Madrid", "Barcelona"]
+  },
+  {
+    "country": "Norway",
+    "cities": ["Oslo"]
+  }
+]

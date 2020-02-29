@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Poland",
+    "iso": "PL",
+    "calling_code": "+48",
+    "area": 312696,
+    "population": 38386000,
+    "capitol": "Warsaw"
+  },
+  {
+    "name": "Spain",
+    "iso": "ES",
+    "calling_code": "+34",
+    "area": 505990,
+    "population": 46733038,
+    "capitol": "Madrid"
+  },
+  {
+    "name": "Norway",
+    "iso": "NO",
+    "calling_code": "+47",
+    "area": 385207,
+    "population": 5356789,
+    "capitol": "Oslo"
+  },
+  {
+    "name": "Russia",
+    "iso": "RU",
+    "calling_code": "+7",
+    "area": 17098246,
+    "population": 146745098,
+    "capitol": "Moscow"
+  }
+]

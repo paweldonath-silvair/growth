@@ -1,0 +1,10 @@
+[
+  {"name": "Warsaw", "country": "PL", "area": 517.24, "population": 1783321},
+  {"name": "Cracow", "country": "PL", "area": 326.8, "population": 774839},
+  {"name": "Wroclaw", "country": "PL", "area": 292.92, "population": 641607},
+  {"name": "Gdansk", "country": "PL", "area": 262.0, "population": 468158},
+  {"name": "Madrid", "country": "ES", "area": 604.3, "population": 3223334},
+  {"name": "Barcelona", "country": "ES", "area": 101.4, "population": 1620343},
+  {"name": "Oslo", "country": "NO", "area": 480.75, "population": 690335},
+  {"name": "Vienna", "country": "AT", "area": 414.78, "population": 1888776}
+]
