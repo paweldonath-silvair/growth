@@ -9,7 +9,7 @@ def main(app_name="first app"):
     print("SPARK_START")
     sc = SparkContext("local", app_name)
     print("MAIN_START")
-    dataframe_nested.multiple_country_mean_city_density(sc)
+    rdd_relation.multiple_country_mean_city_density_01(sc)
     print("MAIN_STOP")
 
 

@@ -43,14 +43,14 @@ def test02(sc: SparkContext):
 
 
 def rdd_test(sc: SparkContext):
-    with open("cities.json") as f:
+    with open("data/cities.json") as f:
         py_data = json.load(f)
     rdd = sc.parallelize(py_data)
     print(rdd.collect())
 
 
 def rdd_group(sc: SparkContext):
-    with open("cities.json") as f:
+    with open("data/cities.json") as f:
         py_data = json.load(f)
     rdd = sc.parallelize(py_data)
     print(rdd.collect())
@@ -61,13 +61,13 @@ def rdd_group(sc: SparkContext):
     rdd.foreach(lambda x: print(x['country'], x['cities']))
 
     py_data = rdd.collect()
-    with open("countries.json", "w") as f:
+    with open("data/countries_full.json", "w") as f:
         json.dump(py_data, f)
 
 
 def dataframe_group(sc: SparkContext):
     sqlContext = SQLContext(sc)
-    with open("cities.json") as f:
+    with open("data/cities.json") as f:
         py_data = json.load(f)
     pdf = pd.DataFrame(py_data)
     df = sqlContext.createDataFrame(pdf)
@@ -160,7 +160,7 @@ def dataframe_read_grouped_simple_test2(sc: SparkContext):
 
 def dataframe_read_grouped_simple(sc: SparkContext):
     sqlContext = SQLContext(sc)
-    with open("countries_simple.json") as f:
+    with open("data/example_simple.json") as f:
         py_data = json.load(f)
     rdd = sc.parallelize(py_data)
     print(rdd.collect())
@@ -176,7 +176,7 @@ def dataframe_read_grouped_simple(sc: SparkContext):
 
 def dataframe_read_grouped_simple2(sc: SparkContext):
     sqlContext = SQLContext(sc)
-    with open("countries_simple2.json") as f:
+    with open("data/example_simple2.json") as f:
         py_data = json.load(f)
 
     country_key = "animal"
@@ -208,7 +208,7 @@ def dataframe_read_grouped_simple2(sc: SparkContext):
 
 def dataframe_read_grouped(sc: SparkContext):
     sqlContext = SQLContext(sc)
-    with open("countries.json") as f:
+    with open("data/countries_full.json") as f:
         py_data = json.load(f)
     rdd = sc.parallelize(py_data)
     print(rdd.collect())
@@ -237,7 +237,7 @@ def dataframe_read_grouped(sc: SparkContext):
 
 def dataframe_pd_test(sc: SparkContext):
     sqlContext = SQLContext(sc)
-    with open("cities.json") as f:
+    with open("data/cities.json") as f:
         py_data = json.load(f)
         print(py_data)
     pdf = pd.DataFrame(py_data)
@@ -249,7 +249,7 @@ def dataframe_pd_test(sc: SparkContext):
 
 def dataframe_test(sc: SparkContext):
     sqlContext = SQLContext(sc)
-    with open("cities.json") as f:
+    with open("data/cities.json") as f:
         py_data = json.load(f)
         print(py_data)
     rdd = sc.parallelize(py_data)
@@ -283,7 +283,7 @@ def main(app_name="first app"):
     print("SPARK_START")
     sc = SparkContext("local", app_name)
     print("MAIN_START")
-    dataframe_read_grouped_simple(sc)
+    dataframe_read_grouped_simple2(sc)
     print("MAIN_STOP")
 
 

@@ -1,11 +1,10 @@
 import json
 import yaml
-from datetime import datetime
 
 from pyspark import SparkContext, SQLContext
-from pyspark.sql.types import ArrayType, StructField, StructType, StringType, IntegerType, DoubleType
+from pyspark.sql.types import StructField, StructType, DoubleType
 
-from influx_reader import get_data
+from others.influx_reader import get_data
 
 
 def test01(sc):
@@ -33,7 +32,7 @@ def print_yaml(x):
 
 
 def simple_test_rdd(sc: SparkContext):
-    py_data = read_data("energy_agg_test.json")
+    py_data = read_data("data/energy_agg_test.json")
     rdd = sc.parallelize(py_data)
     print_type_value(rdd)
     print_yaml(rdd.collect())
@@ -45,7 +44,7 @@ def simple_test_rdd(sc: SparkContext):
 
 
 def simple_test_dataframe(sc: SparkContext):
-    py_data = read_data("energy_agg_test.json")
+    py_data = read_data("data/energy_agg_test.json")
     rdd = sc.parallelize(py_data)
     sqlContext = SQLContext(sc)
 
@@ -77,7 +76,7 @@ def read_data(filename):
 
 
 def save_data():
-    filename = "energy_agg_test.json"
+    filename = "data/energy_agg_test.json"
     data = get_data("dev_agg", "energy_agg", limit=10)
     with open(filename, 'w') as f:
         json.dump(data, f)

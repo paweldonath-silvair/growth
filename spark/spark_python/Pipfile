@@ -6,15 +6,13 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-pyyaml = "*"
 numpy = "*"
 scipy = "*"
 matplotlib = "*"
 pandas = "*"
+pyyaml = "*"
 plotly = "*"
 dash = "*"
-requests = "*"
-influxdb = "*"
 pyspark = "*"
 
 [requires]
