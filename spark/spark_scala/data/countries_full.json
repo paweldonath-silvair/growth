@@ -1,0 +1,48 @@
+[
+  {
+    "name": "Poland",
+    "iso": "PL",
+    "calling_code": "+48",
+    "area": 312696.0,
+    "population": 38386000,
+    "capitol": {"name": "Warsaw", "country": "PL", "area": 517.24, "population": 1783321},
+    "cities": [
+      {"name": "Warsaw", "country": "PL", "area": 517.24, "population": 1783321},
+      {"name": "Cracow", "country": "PL", "area": 326.8, "population": 774839},
+      {"name": "Wroclaw", "country": "PL", "area": 292.92, "population": 641607},
+      {"name": "Gdansk", "country": "PL", "area": 262.0, "population": 468158}
+    ]
+  },
+  {
+    "name": "Spain",
+    "iso": "ES",
+    "calling_code": "+34",
+    "area": 505990.0,
+    "population": 46733038,
+    "capitol": {"name": "Madrid", "country": "ES", "area": 604.3, "population": 3223334},
+    "cities": [
+      {"name": "Madrid", "country": "ES", "area": 604.3, "population": 3223334},
+      {"name": "Barcelona", "country": "ES", "area": 101.4, "population": 1620343}
+    ]
+  },
+  {
+    "name": "Norway",
+    "iso": "NO",
+    "calling_code": "+47",
+    "area": 385207.0,
+    "population": 5356789,
+    "capitol": {"name": "Oslo", "country": "NO", "area": 480.75, "population": 690335},
+    "cities": [
+      {"name": "Oslo", "country": "NO", "area": 480.75, "population": 690335}
+    ]
+  },
+  {
+    "name": "Russia",
+    "iso": "RU",
+    "calling_code": "+7",
+    "area": 17098246.0,
+    "population": 146745098,
+    "capitol": null,
+    "cities": []
+  }
+]
