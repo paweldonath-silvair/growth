@@ -19,9 +19,30 @@ object JsonClassUtils {
     val filename = "data/cities.json"
     val file = Source.fromFile(filename)
     val data: String = file.getLines().mkString
-    println(data)
     file.close()
     decode[Seq[City]](data) match {
+      case Left(error) => Failure(error)
+      case Right(jsons) => Success(jsons)
+    }
+  }
+
+  def readCountries: Try[Seq[Country]] = {
+    val filename = "data/countries.json"
+    val file = Source.fromFile(filename)
+    val data: String = file.getLines().mkString
+    file.close()
+    decode[Seq[Country]](data) match {
+      case Left(error) => Failure(error)
+      case Right(jsons) => Success(jsons)
+    }
+  }
+
+  def readCountriesFull: Try[Seq[CountryFull]] = {
+    val filename = "data/countries_full.json"
+    val file = Source.fromFile(filename)
+    val data: String = file.getLines().mkString
+    file.close()
+    decode[Seq[CountryFull]](data) match {
       case Left(error) => Failure(error)
       case Right(jsons) => Success(jsons)
     }
