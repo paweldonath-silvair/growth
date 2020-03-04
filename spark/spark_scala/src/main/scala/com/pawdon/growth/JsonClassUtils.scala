@@ -12,7 +12,7 @@ case class City(name: String, country: String, population: Int, area: Double)
 case class Country(name: String, iso: String, calling_code: String, population: Int, area: Double, capitol: String)
 
 case class CountryFull(name: String, iso: String, calling_code: String, population: Int, area: Double,
-                       capitol: City, cities: Seq[City])
+                       capitol: Option[City], cities: Seq[City])
 
 object JsonClassUtils {
   def readCities: Try[Seq[City]] = {
