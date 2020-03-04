@@ -3,11 +3,6 @@ package com.pawdon.growth
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.rdd.RDD
 
-import scala.util.{Try, Failure, Success}
-import scala.io.Source
-
-import com.pawdon.growth._
-
 object RddRelation {
   def test01(spark: SparkSession): Unit = {
     val data = spark.sparkContext.parallelize(Seq(1, 3, 5))
