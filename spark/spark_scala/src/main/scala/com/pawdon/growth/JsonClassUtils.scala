@@ -9,6 +9,8 @@ import scala.util.{Failure, Success, Try}
 
 case class City(name: String, country: String, population: Int, area: Double)
 
+case class CityDensity(countryName: String, density: Double)
+
 case class Country(name: String, iso: String, calling_code: String, population: Int, area: Double, capitol: String)
 
 case class CountryFull(name: String, iso: String, calling_code: String, population: Int, area: Double,
