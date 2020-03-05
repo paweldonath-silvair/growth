@@ -38,11 +38,11 @@ object RddRelation {
     val result = cities
       .filter(x => isoTranslator.contains(x.country))
       .map(x => (isoTranslator(x.country), round(x.population * 1.0 / x.area, 2)))
-        .aggregateByKey(zeroValue = (0.0, 0))(
-          seqOp = (agg, x) => (agg._1 + x, agg._2 + 1),
-          combOp = (agg1, agg2) => (agg1._1 + agg2._1, agg1._2 + agg2._2)
-        )
-        .mapValues { case(sum, count) => round(sum / count, 2) }
+      .aggregateByKey(zeroValue = (0.0, 0))(
+        seqOp = (agg, x) => (agg._1 + x, agg._2 + 1),
+        combOp = (agg1, agg2) => (agg1._1 + agg2._1, agg1._2 + agg2._2)
+      )
+      .mapValues { case(sum, count) => round(sum / count, 2) }
 
     showSeparately(result)
   }
