@@ -30,4 +30,15 @@ object DatasetNested {
     showAll(result)
   }
 
+  def capitolToCountryDensityRatio(spark: SparkSession): Unit = {
+    import spark.implicits._
+    val countries = spark.sqlContext.createDataset(JsonClassUtils.readCountriesFull.get)
+
+    val result = countries
+      .filter(_.capitol.nonEmpty)
+      .map(x => (x.name, x.capitol.get.name, (x.capitol.get.population / x.capitol.get.area) / (x.population / x.area)))
+
+    showAll(result)
+  }
+
 }

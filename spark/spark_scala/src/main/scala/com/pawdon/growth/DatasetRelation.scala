@@ -69,23 +69,17 @@ object DatasetRelation {
     showAll(result)
   }
 
-//  def capitolToCountryDensityRatio(spark: SparkSession): Unit = {
-//    val cities = spark.sparkContext.parallelize(JsonClassUtils.readCities.get)
-//    val countries = spark.sparkContext.parallelize(JsonClassUtils.readCountries.get)
-//
-//    val citiesMap = cities.map(x => (x.name, x))
-//    val result = countries
-//      .map(x => (x.capitol, x))
-//      .join(citiesMap)
-//      .map { case(_, (country, capitol)) => Map(
-//        "country_name" -> country.name,
-//        "capitol_name" -> capitol.name,
-//        "country_density" -> round(country.population * 1.0 / country.area, 2),
-//        "capitol_density" -> round(capitol.population * 1.0 / capitol.area, 2),
-//        "density_ratio" -> round((capitol.population * 1.0 / capitol.area) / (country.population * 1.0 / country.area), 2)
-//      ) }
-//
-//    showSeparately(result)
-//  }
+  def capitolToCountryDensityRatio(spark: SparkSession): Unit = {
+    import spark.implicits._
+    val cities = spark.sqlContext.createDataset(JsonClassUtils.readCities.get)
+    val countries = spark.sqlContext.createDataset(JsonClassUtils.readCountries.get)
+
+    val result = countries
+        .joinWith(cities, countries("capitol") === cities("name"))
+        .map { case (country, capitol) =>
+          (country.name, capitol.name, (capitol.population / capitol.area) / (country.population / country.area))}
+
+    showAll(result)
+  }
 
 }
