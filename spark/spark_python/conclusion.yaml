@@ -1,0 +1,13 @@
+RDD:
+  general: Simple parallelization. Data splitted into workers. Computations explicitly on a single object
+  scala: API similar to List (more advanced). Type safe.
+  python: Simple abstraction. Slower than scala. Type unsafe (because of python).
+
+Dataframe:
+  general: SQL-like operations on tables. Logic optimalization. Problems with nested data.
+  scala: Type unsafe.
+  python: Type unsafe. If no UDF, performance may be comparable to scala.
+
+Dataset:
+  scala: "Type safe. API is mix of RDD and Dataframe. Problems with joining in type-safe way. Problems with implicit typing,
+  Grouping and aggregation is an experimental API"
