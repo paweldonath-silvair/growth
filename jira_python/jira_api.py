@@ -79,7 +79,7 @@ def get_issue(key: Union[str, IssueShort]) -> IssueDetails:
 
 
 def test():
-    issues = search_issues(sprint='Delta 2020 week 12')
+    issues = search_issues(component='Delta')
     for i in issues:
         print(i)
 

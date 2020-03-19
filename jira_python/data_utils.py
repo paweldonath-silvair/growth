@@ -131,10 +131,13 @@ class IssueDetails(IssueShort):
     epic: Optional[str]
     components: List[str]
     sprints: List[Sprint]
-    # active_sprint: Optional[Sprint]
     labels: List[str]
     linked_issues: List[LinkedIssue]
     sub_tasks: List[IssueShort]
+
+    def __post_init__(self):
+        active_sprints = [s for s in self.sprints if s.state == 'ACTIVE']
+        self.active_sprint = active_sprints[0] if len(active_sprints) > 0 else None
 
     @staticmethod
     def read_fields_id_to_name(filename='fields_id_to_name.json'):
