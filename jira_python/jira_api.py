@@ -1,7 +1,7 @@
 import json
 from typing import Union
 
-from jira import JIRA
+from jira import JIRA, Issue as JiraIssue
 
 from data_utils import IssueDetails, IssueShort
 
@@ -52,6 +52,25 @@ def save_fields_id_to_name(filename: str = 'fields_id_to_name.json'):
         json.dump(id_to_name, f)
 
 
+def get_epic_name(epic_key: str) -> str:
+    jira_epic = JiraSession.get().issue(epic_key)
+    epic_name = IssueDetails.get_epic_name(jira_epic)
+    return epic_name
+
+
+def issue_with_epic_name(jira_issue: JiraIssue) -> IssueDetails:
+    issue = IssueDetails.from_jira_issue(jira_issue)
+    issue.epic_name = get_epic_name(issue.epic)
+    return issue
+
+
+def get_issue(key: Union[str, IssueShort]) -> IssueDetails:
+    if isinstance(key, IssueShort):
+        key = key.key
+    jira_issue = JiraSession.get().issue(key)
+    return issue_with_epic_name(jira_issue)
+
+
 def search_issues(project=None, component=None, sprint=None, epic=None, only_active=False, max_results=50):
     # eg. project='SP', component='Delta', sprint='Delta 2020 week 12', epic='blueZ'
 
@@ -68,20 +87,27 @@ def search_issues(project=None, component=None, sprint=None, epic=None, only_act
         conditions.append(f'"Epic Link"="{epic}"')
 
     query = ' and '.join(conditions)
-    return [IssueDetails.from_jira_issue(i) for i in JiraSession.get().search_issues(query, maxResults=max_results)]
-
-
-def get_issue(key: Union[str, IssueShort]) -> IssueDetails:
-    if isinstance(key, IssueShort):
-        key = key.key
-    issue = JiraSession.get().issue(key)
-    return IssueDetails.from_jira_issue(issue)
+    issues = [IssueDetails.from_jira_issue(i) for i in JiraSession.get().search_issues(query, maxResults=max_results)]
+    epics_info = {}
+    for i in issues:
+        epic_key = i.epic
+        if epic_key is not None:
+            epic_name = epics_info.get(epic_key)
+            if epic_name is None:
+                epic_name = get_epic_name(epic_key)
+                epics_info[epic_key] = epic_name
+            i.epic_name = epic_name
+    return issues
 
 
 def test():
-    issues = search_issues(component='Delta')
+    issues = search_issues(sprint='Delta 2020 week 12')
     for i in issues:
         print(i)
+
+    print()
+    issue = get_issue('SP-7140')
+    print(issue)
 
 
 if __name__ == "__main__":

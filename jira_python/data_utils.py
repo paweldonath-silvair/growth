@@ -134,16 +134,32 @@ class IssueDetails(IssueShort):
     labels: List[str]
     linked_issues: List[LinkedIssue]
     sub_tasks: List[IssueShort]
+    url: str
+
+    active_sprint_name: Optional[str] = None
+    main_component: Optional[str] = None
+    epic_name: Optional[str] = None
 
     def __post_init__(self):
         active_sprints = [s for s in self.sprints if s.state == 'ACTIVE']
-        self.active_sprint = active_sprints[0] if len(active_sprints) > 0 else None
+        if len(active_sprints) > 0:
+            self.active_sprint_name = active_sprints[0].name
+
+        if len(self.components) > 0:
+            self.main_component = self.components[0]
 
     @staticmethod
     def read_fields_id_to_name(filename='fields_id_to_name.json'):
         with open(filename) as f:
             data = json.load(f)
         return data
+
+    @classmethod
+    def get_epic_name(cls, epic, fields_id_to_name=None):
+        if fields_id_to_name is None:
+            fields_id_to_name = cls.read_fields_id_to_name()
+        fields = {fields_id_to_name[k]: v for k, v in epic.raw['fields'].items()}
+        return fields.get('Epic Name')
 
     @classmethod
     def from_jira_issue(cls, issue, fields_id_to_name=None):
@@ -165,7 +181,8 @@ class IssueDetails(IssueShort):
             sprints=[Sprint.from_str(s) for s in fields.get('Sprint')],
             labels=fields.get('Labels'),
             linked_issues=[LinkedIssue.from_dict(i) for i in fields.get('Linked Issues')],
-            sub_tasks=[IssueShort.from_dict(s) for s in fields.get('Sub-tasks')]
+            sub_tasks=[IssueShort.from_dict(s) for s in fields.get('Sub-tasks')],
+            url=issue.permalink()
         )
 
 
