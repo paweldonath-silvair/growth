@@ -1,5 +1,5 @@
 import json
-from typing import Union
+from typing import Union, List, Dict
 
 from jira import JIRA, Issue as JiraIssue
 
@@ -10,6 +10,9 @@ BOARDS_ID = {
     "Platform board": 180,
     "Platform Mobile": 198
 }
+
+
+NO_EPIC_NAME = "NoEpic"
 
 
 class JiraSession:
@@ -58,17 +61,36 @@ def get_epic_name(epic_key: str) -> str:
     return epic_name
 
 
-def issue_with_epic_name(jira_issue: JiraIssue) -> IssueDetails:
-    issue = IssueDetails.from_jira_issue(jira_issue)
-    issue.epic_name = get_epic_name(issue.epic)
-    return issue
+def fill_issue_epic_name(issue: IssueDetails, cache: Dict[str, str]) -> None:
+    epic_key = issue.epic
+    if epic_key is None:
+        issue.epic = NO_EPIC_NAME
+        issue.epic_name = NO_EPIC_NAME
+    else:
+        epic_name = cache.get(epic_key)
+        if epic_name is None:
+            epic_name = get_epic_name(epic_key)
+            cache[epic_key] = epic_name
+        issue.epic_name = epic_name
 
 
 def get_issue(key: Union[str, IssueShort]) -> IssueDetails:
     if isinstance(key, IssueShort):
         key = key.key
     jira_issue = JiraSession.get().issue(key)
-    return issue_with_epic_name(jira_issue)
+    issue = IssueDetails.from_jira_issue(jira_issue)
+    fill_issue_epic_name(issue, cache=dict())
+    return issue
+
+
+def mark_sub_tasks_with_epic(issues: List[IssueDetails]) -> None:
+    issues_map = {i.key: i for i in issues}
+    for issue in issues:
+        for sub_task in issue.sub_tasks:
+            sub_task_issue = issues_map.get(sub_task.key)
+            if sub_task_issue is not None:
+                sub_task_issue.epic = issue.epic
+                sub_task_issue.epic_name = issue.epic_name
 
 
 def search_issues(project=None, component=None, sprint=None, epic=None, only_active=False, max_results=50):
@@ -88,15 +110,12 @@ def search_issues(project=None, component=None, sprint=None, epic=None, only_act
 
     query = ' and '.join(conditions)
     issues = [IssueDetails.from_jira_issue(i) for i in JiraSession.get().search_issues(query, maxResults=max_results)]
-    epics_info = {}
+
+    epics_cache = dict()
     for i in issues:
-        epic_key = i.epic
-        if epic_key is not None:
-            epic_name = epics_info.get(epic_key)
-            if epic_name is None:
-                epic_name = get_epic_name(epic_key)
-                epics_info[epic_key] = epic_name
-            i.epic_name = epic_name
+        fill_issue_epic_name(i, cache=epics_cache)
+
+    mark_sub_tasks_with_epic(issues)
     return issues
 
 

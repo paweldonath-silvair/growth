@@ -27,4 +27,13 @@ def generate_table(issues: List[IssueDetails]) -> Dict[str, Any]:
             col_sprint,
         ]),
     )
-    return data
+
+    layout = dict(
+        title="Tasks"
+    )
+
+    figure = dict(
+        data=[data],
+        layout=layout
+    )
+    return figure
