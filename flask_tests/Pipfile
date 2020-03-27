@@ -1,0 +1,29 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+pyyaml = "*"
+numpy = "*"
+scipy = "*"
+matplotlib = "*"
+plotly = "*"
+dash = "*"
+pandas = "*"
+flask = "*"
+Flask-API = "*"
+flask-restful = "*"
+flask-restplus = "*"
+Flask-SQLAlchemy = "*"
+requests = "*"
+pytest = "*"
+pytest-bdd = "*"
+sqlalchemy = "*"
+sqlalchemy-utils = "*"
+pg8000 = "*"
+
+[requires]
+python_version = "3.7"
